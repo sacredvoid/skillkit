@@ -1,0 +1,22 @@
+{
+  "name": "skillkit",
+  "description": "A curated collection of AI coding skills: image fetching, logo generation, presentation creation, and video/audio processing.",
+  "version": "1.0.0",
+  "author": {
+    "name": "sacredvoid",
+    "email": "sacredvoid@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/sacredvoid/skillkit",
+  "repository": "https://github.com/sacredvoid/skillkit",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "skills",
+    "image-fetcher",
+    "logo-generator",
+    "presentation",
+    "video-processor",
+    "ai-tools",
+    "coding-assistant"
+  ]
+}

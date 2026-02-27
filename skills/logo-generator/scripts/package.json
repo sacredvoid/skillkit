@@ -1,0 +1,9 @@
+{
+  "name": "logo-generator-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Asset generation scripts for the logo-generator Claude Code skill",
+  "dependencies": {
+    "sharp": "^0.33.0"
+  }
+}
