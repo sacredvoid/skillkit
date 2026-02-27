@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skillkit - AI Coding Skills Collection</title>
+  <meta name="description" content="A curated collection of AI coding skills: image fetching, logo generation, cinematic presentations, and video/audio processing. Works with Claude Code, Cursor, Windsurf, Copilot, and more.">
+  <meta property="og:title" content="Skillkit - AI Coding Skills Collection">
+  <meta property="og:description" content="Image fetching, logo generation, cinematic presentations, and video/audio processing. Works with any AI coding assistant.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sacredvoid.github.io/skillkit">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #08080c;
+      --surface: #0f0f15;
+      --surface-2: #16161f;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(255,255,255,0.12);
+      --text: #e8e8f0;
+      --text-dim: #6e6e82;
+      --text-muted: #3e3e52;
+      --cyan: #22d3ee;
+      --purple: #a855f7;
+      --pink: #ec4899;
+      --amber: #f59e0b;
+      --green: #34d399;
+      --blue: #60a5fa;
+      --radius: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== GRID BACKGROUND ===== */
+    .grid-bg {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%);
+    }
+
+    /* ===== MOUSE SPOTLIGHT ===== */
+    .spotlight {
+      position: fixed;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,238,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+
+    /* ===== LAYOUT ===== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    section { padding: 100px 0; }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      backdrop-filter: blur(20px);
+      background: rgba(8,8,12,0.8);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    nav .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-brand .logo-mark {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #fff;
+      font-weight: 800;
+    }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-link {
+      padding: 8px 16px;
+      border-radius: 10px;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .nav-link--gh {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-link--gh:hover { background: rgba(255,255,255,0.1); }
+    .nav-link--gh svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      background: rgba(34,211,238,0.08);
+      border: 1px solid rgba(34,211,238,0.15);
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 32px;
+    }
+    .hero-badge .pulse {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(34,211,238,0); }
+    }
+
+    h1 {
+      font-size: clamp(52px, 10vw, 100px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 24px;
+    }
+    .h1-line-1 {
+      display: block;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 50%, var(--pink) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: var(--text-dim);
+      max-width: 560px;
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      border: none;
+      cursor: pointer;
+    }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #fff;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(34,211,238,0.25); }
+    .btn-ghost {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+
+    /* ===== TOOL STRIP ===== */
+    .tool-strip {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 48px;
+      opacity: 0.4;
+    }
+    .tool-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== BENTO GRID ===== */
+    .bento-section { padding-top: 60px; }
+
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .section-sub {
+      color: var(--text-dim);
+      font-size: 17px;
+      margin-top: 12px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 16px;
+    }
+
+    .bento-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: clamp(24px, 3vw, 36px);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .bento-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+      border-radius: var(--radius);
+    }
+    .bento-card:hover::before { opacity: 1; }
+
+    /* Card: Image Fetcher - wide */
+    .card-image {
+      grid-column: span 7;
+      grid-row: span 2;
+    }
+    .card-image::before {
+      background: radial-gradient(ellipse at 30% 20%, rgba(34,211,238,0.06), transparent 60%);
+    }
+    .card-image:hover { box-shadow: 0 12px 40px rgba(34,211,238,0.08); }
+
+    /* Card: Logo Generator - tall */
+    .card-logo {
+      grid-column: span 5;
+      grid-row: span 2;
+    }
+    .card-logo::before {
+      background: radial-gradient(ellipse at 70% 30%, rgba(168,85,247,0.06), transparent 60%);
+    }
+    .card-logo:hover { box-shadow: 0 12px 40px rgba(168,85,247,0.08); }
+
+    /* Card: Presentation Chef - wide */
+    .card-pres {
+      grid-column: span 5;
+      grid-row: span 2;
+    }
+    .card-pres::before {
+      background: radial-gradient(ellipse at 50% 40%, rgba(245,158,11,0.06), transparent 60%);
+    }
+    .card-pres:hover { box-shadow: 0 12px 40px rgba(245,158,11,0.08); }
+
+    /* Card: Video Processor */
+    .card-video {
+      grid-column: span 7;
+      grid-row: span 2;
+    }
+    .card-video::before {
+      background: radial-gradient(ellipse at 60% 60%, rgba(52,211,153,0.06), transparent 60%);
+    }
+    .card-video:hover { box-shadow: 0 12px 40px rgba(52,211,153,0.08); }
+
+    .card-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+    .card-image .card-icon { background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.15); }
+    .card-logo .card-icon { background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.15); }
+    .card-pres .card-icon { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.15); }
+    .card-video .card-icon { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.15); }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .card-image .card-title { color: var(--cyan); }
+    .card-logo .card-title { color: var(--purple); }
+    .card-pres .card-title { color: var(--amber); }
+    .card-video .card-title { color: var(--green); }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .card-tag {
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+    .card-image .card-tag { border-color: rgba(34,211,238,0.12); color: rgba(34,211,238,0.8); }
+    .card-logo .card-tag { border-color: rgba(168,85,247,0.12); color: rgba(168,85,247,0.8); }
+    .card-pres .card-tag { border-color: rgba(245,158,11,0.12); color: rgba(245,158,11,0.8); }
+    .card-video .card-tag { border-color: rgba(52,211,153,0.12); color: rgba(52,211,153,0.8); }
+
+    /* Card inner demos */
+    .card-demo {
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    /* Terminal mock */
+    .term {
+      background: #0a0a10;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .term-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+    .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .term-body {
+      padding: 16px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px;
+      line-height: 1.8;
+      color: var(--text-dim);
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .t-c { color: var(--cyan); }
+    .t-p { color: var(--purple); }
+    .t-g { color: var(--green); }
+    .t-a { color: var(--amber); }
+    .t-d { color: var(--text-muted); }
+    .t-w { color: var(--text); }
+
+    /* File tree in card */
+    .file-tree-mini {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      line-height: 1.9;
+      color: var(--text-dim);
+      padding: 16px;
+      background: #0a0a10;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 16px;
+    }
+    .ft-dir { color: var(--blue); }
+    .ft-svg { color: var(--purple); }
+    .ft-img { color: var(--green); }
+    .ft-meta { color: var(--amber); }
+
+    /* Waveform animation */
+    .waveform {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 40px;
+      margin-top: 16px;
+    }
+    .wave-bar {
+      width: 4px;
+      border-radius: 2px;
+      background: var(--green);
+      animation: wave 1.2s ease-in-out infinite;
+    }
+    .wave-bar:nth-child(1) { height: 30%; animation-delay: 0s; }
+    .wave-bar:nth-child(2) { height: 60%; animation-delay: 0.1s; }
+    .wave-bar:nth-child(3) { height: 45%; animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { height: 80%; animation-delay: 0.3s; }
+    .wave-bar:nth-child(5) { height: 55%; animation-delay: 0.4s; }
+    .wave-bar:nth-child(6) { height: 90%; animation-delay: 0.15s; }
+    .wave-bar:nth-child(7) { height: 40%; animation-delay: 0.25s; }
+    .wave-bar:nth-child(8) { height: 70%; animation-delay: 0.35s; }
+    .wave-bar:nth-child(9) { height: 50%; animation-delay: 0.45s; }
+    .wave-bar:nth-child(10) { height: 75%; animation-delay: 0.05s; }
+    .wave-bar:nth-child(11) { height: 35%; animation-delay: 0.2s; }
+    .wave-bar:nth-child(12) { height: 65%; animation-delay: 0.3s; }
+    .wave-bar:nth-child(13) { height: 85%; animation-delay: 0.1s; }
+    .wave-bar:nth-child(14) { height: 45%; animation-delay: 0.25s; }
+    .wave-bar:nth-child(15) { height: 55%; animation-delay: 0.35s; }
+    .wave-bar:nth-child(16) { height: 30%; animation-delay: 0.4s; }
+    @keyframes wave {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.4); }
+    }
+
+    /* Slide screenshots */
+    .slides-preview {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+    .slide-thumb {
+      width: 120px; height: 72px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      object-fit: cover;
+      transition: all 0.3s;
+    }
+    .slide-thumb:hover { border-color: rgba(245,158,11,0.3); transform: scale(1.05); }
+
+    /* ===== INSTALL SECTION ===== */
+    .install-section {
+      text-align: center;
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .install-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: left;
+      transition: all 0.3s;
+    }
+    .install-card:hover { border-color: var(--border-hover); }
+    .install-card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .install-card-title .tool-icon { font-size: 20px; }
+    .install-code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12.5px;
+      color: var(--cyan);
+      background: #0a0a10;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+      position: relative;
+    }
+    .install-code .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .install-code .copy-btn:hover { background: var(--border); color: var(--text); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 60px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .footer-link {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .footer-link:hover { color: var(--text); }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .bento {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .card-image, .card-logo, .card-pres, .card-video {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+      .slides-preview { display: none; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 60px 0; }
+      .hero { min-height: 90vh; }
+      .nav-links .nav-link:not(.nav-link--gh) { display: none; }
+      .install-grid { grid-template-columns: 1fr; }
+      .tool-strip { gap: 16px; }
+      .spotlight { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="spotlight" id="spotlight"></div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <span class="logo-mark">S</span>
+        skillkit
+      </a>
+      <div class="nav-links">
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#install" class="nav-link">Install</a>
+        <a href="https://github.com/sacredvoid/skillkit" class="nav-link nav-link--gh" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge reveal">
+        <span class="pulse"></span>
+        Open Source
+      </div>
+      <h1 class="reveal reveal-d1">
+        <span class="h1-line-1">skillkit</span>
+      </h1>
+      <p class="hero-sub reveal reveal-d2">A curated collection of AI coding skills for creative workflows. Images, logos, presentations, and transcription, all from your editor.</p>
+      <div class="hero-cta-row reveal reveal-d3">
+        <a href="https://github.com/sacredvoid/skillkit" class="btn btn-primary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          View on GitHub
+        </a>
+        <a href="#install" class="btn btn-ghost">Install Now</a>
+      </div>
+      <div class="tool-strip reveal reveal-d4">
+        <span class="tool-name">Claude Code</span>
+        <span class="tool-name">Cursor</span>
+        <span class="tool-name">Windsurf</span>
+        <span class="tool-name">Copilot</span>
+        <span class="tool-name">Cline</span>
+        <span class="tool-name">Aider</span>
+        <span class="tool-name">Zed</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Bento -->
+  <section class="bento-section" id="skills">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">The Collection</div>
+        <div class="section-title">Four skills. One install.</div>
+        <div class="section-sub">Each skill is a standalone markdown file with a complete interactive workflow. No APIs, no build steps, no subscriptions.</div>
+      </div>
+
+      <div class="bento">
+
+        <!-- Image Fetcher -->
+        <div class="bento-card card-image reveal">
+          <div class="card-icon">&#128247;</div>
+          <div class="card-title">Image Fetcher</div>
+          <div class="card-desc">Context-aware image search from Unsplash, Pexels, and Pixabay. Scans your project for context, generates smart queries, presents curated picks, and downloads with clean filenames. Zero config required.</div>
+          <div class="card-features">
+            <span class="card-tag">Unsplash</span>
+            <span class="card-tag">Pexels</span>
+            <span class="card-tag">Pixabay</span>
+            <span class="card-tag">Zero Config</span>
+            <span class="card-tag">Context-Aware</span>
+          </div>
+          <div class="card-demo">
+            <div class="term">
+              <div class="term-bar">
+                <div class="term-dot dot-r"></div>
+                <div class="term-dot dot-y"></div>
+                <div class="term-dot dot-g"></div>
+              </div>
+              <div class="term-body"><span class="t-c">Found 5 images for "modern coffee shop":</span>
+
+ <span class="t-g">1.</span> cozy-cafe-warm-lighting.jpg   <span class="t-d">1920x1280</span>
+ <span class="t-g">2.</span> espresso-bar-minimal.jpg      <span class="t-d">1800x1200</span>
+ <span class="t-g">3.</span> latte-art-closeup.jpg         <span class="t-d">2000x1333</span>
+
+<span class="t-c">License:</span> Free to use (Unsplash License)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo Generator -->
+        <div class="bento-card card-logo reveal reveal-d1">
+          <div class="card-icon">&#9998;</div>
+          <div class="card-title">Logo Generator</div>
+          <div class="card-desc">Adaptive brainstorming that reads your project, proposes concepts, generates production SVGs in light/dark/mono variants, and exports a complete brand kit.</div>
+          <div class="card-features">
+            <span class="card-tag">SVG</span>
+            <span class="card-tag">Favicons</span>
+            <span class="card-tag">Social Images</span>
+            <span class="card-tag">PWA</span>
+          </div>
+          <div class="file-tree-mini">
+<span class="ft-dir">public/</span>
+&#x251C; <span class="ft-svg">logo.svg</span>
+&#x251C; <span class="ft-svg">logo-dark.svg</span>
+&#x251C; <span class="ft-svg">logo-mono.svg</span>
+&#x251C; <span class="ft-img">favicon.ico</span>
+&#x251C; <span class="ft-img">og-image.png</span>
+&#x251C; <span class="ft-img">twitter-card.png</span>
+&#x2514; <span class="ft-meta">site.webmanifest</span></div>
+        </div>
+
+        <!-- Presentation Chef -->
+        <div class="bento-card card-pres reveal reveal-d2">
+          <div class="card-icon">&#127916;</div>
+          <div class="card-title">Presentation Chef</div>
+          <div class="card-desc">Apple Keynote-style HTML presentations with cinematic animations, glassmorphism, 5 themes, 13 slide types, speaker notes, and PDF export. Single self-contained .html file.</div>
+          <div class="card-features">
+            <span class="card-tag">5 Themes</span>
+            <span class="card-tag">13 Slide Types</span>
+            <span class="card-tag">Speaker Notes</span>
+            <span class="card-tag">Zero Dependencies</span>
+          </div>
+          <div class="slides-preview">
+            <img src="../assets/screenshots/slide-1-hero.png" class="slide-thumb" alt="Hero slide" loading="lazy">
+            <img src="../assets/screenshots/slide-2-stats.png" class="slide-thumb" alt="Stats slide" loading="lazy">
+            <img src="../assets/screenshots/slide-3-features.png" class="slide-thumb" alt="Features slide" loading="lazy">
+          </div>
+        </div>
+
+        <!-- Video/Audio Processor -->
+        <div class="bento-card card-video reveal reveal-d3">
+          <div class="card-icon">&#127908;</div>
+          <div class="card-title">Video/Audio Processor</div>
+          <div class="card-desc">Transcribe recordings with local Whisper (no API key), extract visual frames with ffmpeg at 1 per minute, and synthesize everything into structured meeting notes with participants, decisions, and action items.</div>
+          <div class="card-features">
+            <span class="card-tag">Whisper</span>
+            <span class="card-tag">ffmpeg</span>
+            <span class="card-tag">Local Processing</span>
+            <span class="card-tag">Meeting Notes</span>
+          </div>
+          <div class="waveform">
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <div class="card-demo" style="margin-top: 16px;">
+            <div class="term">
+              <div class="term-bar">
+                <div class="term-dot dot-r"></div>
+                <div class="term-dot dot-y"></div>
+                <div class="term-dot dot-g"></div>
+              </div>
+              <div class="term-body"><span class="t-g">[00:00]</span> <span class="t-w">Welcome everyone to the sprint review.</span>
+<span class="t-g">[02:14]</span> <span class="t-w">Let me share the demo of the new auth flow.</span>
+<span class="t-g">[08:30]</span> <span class="t-w">The migration is complete, all tests passing.</span>
+<span class="t-g">[12:45]</span> <span class="t-w">Action item: deploy to staging by Friday.</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Install -->
+  <section class="install-section" id="install">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Get Started</div>
+        <div class="section-title">Install in seconds</div>
+        <div class="section-sub">Works with any AI coding assistant. Each skill is a standalone markdown file.</div>
+      </div>
+
+      <div class="install-grid">
+        <div class="install-card reveal">
+          <div class="install-card-title">
+            <span class="tool-icon">&#9889;</span>
+            Claude Code
+          </div>
+          <div class="install-code"><button class="copy-btn" onclick="copyCode(this)">Copy</button><span class="t-d">$</span> <span class="t-c">/plugin marketplace add</span> sacredvoid/skillkit
+<span class="t-d">$</span> <span class="t-c">/plugin install</span> skillkit@sacredvoid-skillkit</div>
+        </div>
+        <div class="install-card reveal reveal-d1">
+          <div class="install-card-title">
+            <span class="tool-icon">&#128065;</span>
+            Cursor
+          </div>
+          <div class="install-code"><button class="copy-btn" onclick="copyCode(this)">Copy</button><span class="t-d"># Copy SKILL.md to your project:</span>
+.cursor/rules/&lt;skill-name&gt;.mdc</div>
+        </div>
+        <div class="install-card reveal reveal-d2">
+          <div class="install-card-title">
+            <span class="tool-icon">&#127760;</span>
+            Any AI Tool
+          </div>
+          <div class="install-code"><button class="copy-btn" onclick="copyCode(this)">Copy</button><span class="t-d"># Each skill is a standalone markdown file.</span>
+<span class="t-d"># Copy SKILL.md into your tool's</span>
+<span class="t-d"># instruction/rule format.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="nav-brand" style="justify-content: center; margin-bottom: 8px;">
+        <span class="logo-mark">S</span>
+        skillkit
+      </div>
+      <p style="color: var(--text-dim); font-size: 14px;">MIT Licensed. Built by <a href="https://github.com/sacredvoid" style="color: var(--cyan); text-decoration: none;">sacredvoid</a></p>
+      <div class="footer-links">
+        <a href="https://github.com/sacredvoid/skillkit" class="footer-link">GitHub</a>
+        <a href="https://github.com/sacredvoid/skillkit/issues" class="footer-link">Issues</a>
+        <a href="https://github.com/sacredvoid/skillkit/blob/main/LICENSE" class="footer-link">License</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Mouse spotlight
+    const spot = document.getElementById('spotlight');
+    let spotX = -300, spotY = -300;
+    let curX = -300, curY = -300;
+
+    document.addEventListener('mousemove', (e) => {
+      spotX = e.clientX;
+      spotY = e.clientY;
+    });
+
+    function animateSpotlight() {
+      curX += (spotX - curX) * 0.08;
+      curY += (spotY - curY) * 0.08;
+      spot.style.left = curX + 'px';
+      spot.style.top = curY + 'px';
+      requestAnimationFrame(animateSpotlight);
+    }
+    animateSpotlight();
+
+    // Copy button
+    function copyCode(btn) {
+      const code = btn.parentElement.textContent.replace('Copy', '').trim();
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1500);
+      });
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
