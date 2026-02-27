@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skillkit - AI Coding Skills Collection</title>
-  <meta name="description" content="A curated collection of AI coding skills: image fetching, logo generation, cinematic presentations, and video/audio processing. Works with Claude Code, Cursor, Windsurf, Copilot, and more.">
+  <meta name="description" content="A curated collection of AI coding skills: image fetching, logo generation, cinematic presentations, video/audio processing, and local image generation. Works with Claude Code, Cursor, Windsurf, Copilot, and more.">
   <meta property="og:title" content="Skillkit - AI Coding Skills Collection">
-  <meta property="og:description" content="Image fetching, logo generation, cinematic presentations, and video/audio processing. Works with any AI coding assistant.">
+  <meta property="og:description" content="Image fetching, logo generation, cinematic presentations, video/audio processing, and local Stable Diffusion image generation. Works with any AI coding assistant.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sacredvoid.github.io/skillkit">
   <style>
@@ -27,6 +27,7 @@
       --amber: #f59e0b;
       --green: #34d399;
       --blue: #60a5fa;
+      --rose: #f43f5e;
       --radius: 20px;
     }
 
@@ -343,6 +344,16 @@
     }
     .card-video:hover { box-shadow: 0 12px 40px rgba(52,211,153,0.08); }
 
+    /* Card: Local Image Gen */
+    .card-imagegen {
+      grid-column: span 12;
+      grid-row: span 2;
+    }
+    .card-imagegen::before {
+      background: radial-gradient(ellipse at 40% 40%, rgba(244,63,94,0.06), transparent 60%);
+    }
+    .card-imagegen:hover { box-shadow: 0 12px 40px rgba(244,63,94,0.08); }
+
     .card-icon {
       width: 48px; height: 48px;
       border-radius: 14px;
@@ -357,6 +368,7 @@
     .card-logo .card-icon { background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.15); }
     .card-pres .card-icon { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.15); }
     .card-video .card-icon { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.15); }
+    .card-imagegen .card-icon { background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.15); }
 
     .card-title {
       font-size: 22px;
@@ -368,6 +380,7 @@
     .card-logo .card-title { color: var(--purple); }
     .card-pres .card-title { color: var(--amber); }
     .card-video .card-title { color: var(--green); }
+    .card-imagegen .card-title { color: var(--rose); }
 
     .card-desc {
       font-size: 14px;
@@ -396,6 +409,7 @@
     .card-logo .card-tag { border-color: rgba(168,85,247,0.12); color: rgba(168,85,247,0.8); }
     .card-pres .card-tag { border-color: rgba(245,158,11,0.12); color: rgba(245,158,11,0.8); }
     .card-video .card-tag { border-color: rgba(52,211,153,0.12); color: rgba(52,211,153,0.8); }
+    .card-imagegen .card-tag { border-color: rgba(244,63,94,0.12); color: rgba(244,63,94,0.8); }
 
     /* Card inner demos */
     .card-demo {
@@ -608,7 +622,7 @@
         grid-template-columns: 1fr;
         grid-auto-rows: auto;
       }
-      .card-image, .card-logo, .card-pres, .card-video {
+      .card-image, .card-logo, .card-pres, .card-video, .card-imagegen {
         grid-column: span 1;
         grid-row: span 1;
       }
@@ -657,7 +671,7 @@
       <h1 class="reveal reveal-d1">
         <span class="h1-line-1">skillkit</span>
       </h1>
-      <p class="hero-sub reveal reveal-d2">A curated collection of AI coding skills for creative workflows. Images, logos, presentations, and transcription, all from your editor.</p>
+      <p class="hero-sub reveal reveal-d2">A curated collection of AI coding skills for creative workflows. Images, logos, presentations, transcription, and local AI image generation, all from your editor.</p>
       <div class="hero-cta-row reveal reveal-d3">
         <a href="https://github.com/sacredvoid/skillkit" class="btn btn-primary" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
@@ -682,7 +696,7 @@
     <div class="container">
       <div class="section-header reveal">
         <div class="section-label">The Collection</div>
-        <div class="section-title">Four skills. One install.</div>
+        <div class="section-title">Five skills. One install.</div>
         <div class="section-sub">Each skill is a standalone markdown file with a complete interactive workflow. No APIs, no build steps, no subscriptions.</div>
       </div>
 
@@ -762,12 +776,13 @@
         <div class="bento-card card-video reveal reveal-d3">
           <div class="card-icon">&#127908;</div>
           <div class="card-title">Video/Audio Processor</div>
-          <div class="card-desc">Transcribe recordings with local Whisper (no API key), extract visual frames with ffmpeg at 1 per minute, and synthesize everything into structured meeting notes with participants, decisions, and action items.</div>
+          <div class="card-desc">Transcribe recordings with local Whisper (no API key), extract visual frames with ffmpeg at 1 per minute, and synthesize everything into structured meeting notes. Auto-detects hardware and picks the best transcription engine and model.</div>
           <div class="card-features">
             <span class="card-tag">Whisper</span>
+            <span class="card-tag">faster-whisper</span>
             <span class="card-tag">ffmpeg</span>
-            <span class="card-tag">Local Processing</span>
-            <span class="card-tag">Meeting Notes</span>
+            <span class="card-tag">Cross-Platform</span>
+            <span class="card-tag">GPU Accelerated</span>
           </div>
           <div class="waveform">
             <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
@@ -788,6 +803,45 @@
 <span class="t-g">[02:14]</span> <span class="t-w">Let me share the demo of the new auth flow.</span>
 <span class="t-g">[08:30]</span> <span class="t-w">The migration is complete, all tests passing.</span>
 <span class="t-g">[12:45]</span> <span class="t-w">Action item: deploy to staging by Friday.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Local Image Gen -->
+        <div class="bento-card card-imagegen reveal reveal-d4">
+          <div style="display: flex; gap: 36px; align-items: flex-start; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 260px;">
+              <div class="card-icon">&#127912;</div>
+              <div class="card-title">Local Image Gen</div>
+              <div class="card-desc">Generate images locally using Stable Diffusion. Auto-detects your hardware (Apple Silicon, NVIDIA, AMD, CPU) and picks the optimal model, resolution, and settings. No API keys, no cloud, no subscriptions.</div>
+              <div class="card-features">
+                <span class="card-tag">Stable Diffusion</span>
+                <span class="card-tag">SDXL-Turbo</span>
+                <span class="card-tag">Cross-Platform</span>
+                <span class="card-tag">GPU Accelerated</span>
+                <span class="card-tag">8 Art Styles</span>
+              </div>
+            </div>
+            <div style="flex: 1; min-width: 260px;">
+              <div class="term">
+                <div class="term-bar">
+                  <div class="term-dot dot-r"></div>
+                  <div class="term-dot dot-y"></div>
+                  <div class="term-dot dot-g"></div>
+                </div>
+                <div class="term-body"><span class="t-d">Detected hardware:</span>
+  OS: <span class="t-w">Darwin (arm64)</span>
+  GPU: <span class="t-c">Apple Silicon (MPS)</span> <span class="t-d">36 GB</span>
+  Device: <span class="t-g">mps</span>
+
+<span class="t-d">Recommended:</span> <span class="t-w">SDXL-Turbo</span> <span class="t-d">1024x576, 6 steps</span>
+
+<span class="t-a">Generating...</span> <span class="t-d">neonpunk style crystalline</span>
+<span class="t-d">data pipeline splitting light into</span>
+<span class="t-d">rainbow streams</span>
+
+<span class="t-g">Saved to public/blog/hero.jpg</span></div>
+              </div>
             </div>
           </div>
         </div>

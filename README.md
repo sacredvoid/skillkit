@@ -11,7 +11,8 @@ A curated collection of AI coding skills for creative and productivity workflows
 | [**Image Fetcher**](skills/image-fetcher/) | Context-aware image search from Unsplash, Pexels, Pixabay. Zero-config with WebSearch fallback. |
 | [**Logo Generator**](skills/logo-generator/) | Adaptive brainstorming, SVG logo creation, full brand kit export (favicons, social images, PWA manifest). |
 | [**Presentation Chef**](skills/presentation-chef/) | Apple Keynote-style HTML presentations with cinematic animations, glassmorphism, and 5 themes. Single `.html` file. |
-| [**Video/Audio Processor**](skills/video-audio-processor/) | Transcribe recordings with Whisper, extract visual frames with ffmpeg, synthesize meeting notes. |
+| [**Video/Audio Processor**](skills/video-audio-processor/) | Transcribe recordings with Whisper, extract visual frames with ffmpeg, synthesize meeting notes. Cross-platform with hardware-aware model selection. |
+| [**Local Image Gen**](skills/local-image-gen/) | Generate images locally with Stable Diffusion. Auto-detects hardware (Apple Silicon, NVIDIA, AMD, CPU) and picks the best model. Cross-platform. |
 
 ## Installation
 
@@ -34,6 +35,7 @@ Then invoke any skill:
 /logo-generator
 /presentation-chef
 /video-audio-processor
+/local-image-gen abstract neural network on dark gradient
 ```
 
 </details>
@@ -115,9 +117,15 @@ Guided workflow: content source, theme selection (with AI recommendations), slid
 
 ### Video/Audio Processor
 
-Extracts visual frames with ffmpeg (1 per minute), transcribes audio with OpenAI Whisper (local, no API key), and synthesizes findings into structured notes.
+Extracts visual frames with ffmpeg (1 per minute), transcribes audio with Whisper (local, no API key), and synthesizes findings into structured notes. Auto-detects your hardware and picks the optimal transcription engine: `faster-whisper` for NVIDIA GPUs, standard `openai-whisper` for Apple Silicon and CPU.
 
-**Requires**: `brew install ffmpeg` and `pip3 install openai-whisper`.
+**Requires**: ffmpeg and Python. Install commands provided per platform (macOS, Linux, Windows).
+
+### Local Image Gen
+
+Generate images locally using Stable Diffusion. Detects your hardware (Apple Silicon MPS, NVIDIA CUDA, AMD ROCm, CPU) and recommends the best model and resolution. Supports SDXL-Turbo, SD-Turbo, and Tiny-SD.
+
+**Requires**: Python and PyTorch. Install commands provided per platform.
 
 ## License
 

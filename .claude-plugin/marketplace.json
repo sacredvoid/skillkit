@@ -1,6 +1,6 @@
 {
   "name": "skillkit",
-  "description": "A curated collection of AI coding skills for image fetching, logo generation, presentation creation, and video/audio processing.",
+  "description": "A curated collection of AI coding skills for image fetching, logo generation, presentation creation, video/audio processing, and local image generation.",
   "owner": {
     "name": "sacredvoid",
     "email": "sacredvoid@users.noreply.github.com"
@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "skillkit",
-      "description": "Image fetching, SVG logo generation, cinematic HTML presentations, and video/audio transcription.",
+      "description": "Image fetching, SVG logo generation, cinematic HTML presentations, video/audio transcription, and local Stable Diffusion image generation.",
       "version": "1.0.0",
       "source": "./",
       "author": {
