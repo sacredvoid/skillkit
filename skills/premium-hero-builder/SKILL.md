@@ -667,6 +667,161 @@ You could automate Kling's web UI with Playwright (upload image, paste prompt, c
 | `tailwindcss` | Styling |
 | `shadcn/ui` | Component primitives |
 
+## Cinematic Theme Transitions (Superwhisper Technique)
+
+Inspired by superwhisper.com's day/dusk/night switcher. Instead of toggling a CSS class and instantly swapping colors, stack multiple gradient layers and crossfade between them with a slow opacity transition. The result is a gorgeous, cinematic color shift.
+
+### How It Works
+
+**Architecture:** 3+ absolute-positioned gradient layers stacked on top of each other. Only the active theme's layer has `opacity: 1`. All others are `opacity: 0`. A 1.2s ease-in-out transition creates the crossfade.
+
+```tsx
+// ThemeProvider state manages the active theme
+const [theme, setTheme] = useState<"day" | "dusk" | "night">("day");
+```
+
+### CSS: Define Gradient Layers
+
+```css
+/* Container holds all gradient layers */
+.theme-gradient-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Each gradient layer is fullscreen, stacked, and crossfades */
+.gradient-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  z-index: 0;
+}
+
+/* Active layer becomes visible */
+.theme-day .gradient-layer.day,
+.theme-dusk .gradient-layer.dusk,
+.theme-night .gradient-layer.night {
+  opacity: 1;
+}
+```
+
+### CSS: The Three Gradient Palettes
+
+```css
+/* Day - warm sky blue, golden undertones */
+.gradient-layer.day {
+  background:
+    linear-gradient(90deg, rgba(25, 74, 232, 0.2) 2.75%, rgba(255, 190, 10, 0.2) 99.26%),
+    radial-gradient(170% 104% at 50% 0%, rgba(38, 84, 144, 0.5) 17%, rgba(255, 255, 255, 0.5) 100%),
+    radial-gradient(570% 155% at 50% -38%, rgba(0,0,0,0.5) 0%, rgba(2, 32, 68, 0.5) 21%,
+      rgba(31, 93, 135, 0.5) 46%, rgba(93, 109, 142, 0.5) 62%, rgba(159, 138, 145, 0.5) 74%,
+      rgba(205, 155, 142, 0.5) 80%, rgba(255, 226, 97, 0.5) 88%, rgba(255, 126, 30, 0.5) 100%),
+    rgb(115, 175, 235);
+}
+
+/* Dusk - purple/pink twilight */
+.gradient-layer.dusk {
+  background:
+    linear-gradient(90deg, rgba(25, 153, 232, 0.15) 2.75%, rgba(164, 91, 242, 0.15) 99.26%),
+    linear-gradient(rgba(0,0,0,0.5) 0.85%, rgba(0, 5, 46, 0.5) 26%, rgba(41, 40, 94, 0.5) 58%,
+      rgba(84, 60, 123, 0.5) 80%, rgba(133, 90, 146, 0.5) 96%, rgba(195, 134, 171, 0.5) 107%),
+    linear-gradient(rgb(0,0,0) 0.85%, rgb(17, 45, 114) 33%, rgb(75, 82, 170) 50%,
+      rgb(168, 135, 220) 71%, rgb(230, 196, 231) 96%, rgb(252, 219, 239) 107%),
+    rgb(0, 0, 0);
+}
+
+/* Night - deep dark blue, subtle warm edge */
+.gradient-layer.night {
+  background:
+    linear-gradient(90deg, rgba(25, 153, 232, 0.1) 2.75%, rgba(164, 91, 242, 0.1) 99.26%),
+    radial-gradient(83% 104% at 50% 0%, rgba(38, 84, 144, 0) 72%, rgba(255, 117, 117, 0) 100%),
+    radial-gradient(610% 214% at 50% -38%, rgba(0,0,0,0.5) 0%, rgba(2, 32, 68, 0.5) 21%,
+      rgba(31, 93, 135, 0.5) 46%, rgba(93, 109, 142, 0.5) 62%, rgba(159, 138, 145, 0.5) 74%,
+      rgba(205, 155, 142, 0.5) 80%, rgba(255, 162, 97, 0.5) 88%, rgba(255, 126, 30, 0.5) 100%),
+    rgb(0, 0, 0);
+}
+```
+
+### React Implementation
+
+```tsx
+"use client";
+import { useState } from "react";
+import { Sun, Sunset, Moon } from "lucide-react";
+
+const themes = [
+  { id: "day", icon: Sun, label: "Day" },
+  { id: "dusk", icon: Sunset, label: "Dusk" },
+  { id: "night", icon: Moon, label: "Night" },
+] as const;
+
+type Theme = typeof themes[number]["id"];
+
+export function ThemeHero() {
+  const [theme, setTheme] = useState<Theme>("day");
+
+  return (
+    <section className={`theme-gradient-container relative min-h-screen theme-${theme}`}>
+      {/* Stacked gradient layers - all render, only active one is visible */}
+      <div className="gradient-layer day" />
+      <div className="gradient-layer dusk" />
+      <div className="gradient-layer night" />
+
+      {/* Theme toggle - small pill in top-right */}
+      <div className="absolute top-4 right-4 z-20 flex gap-1 rounded-full bg-black/20 p-1 backdrop-blur-sm">
+        {themes.map(({ id, icon: Icon, label }) => (
+          <button
+            key={id}
+            onClick={() => setTheme(id)}
+            className={`rounded-full p-2 transition-colors ${
+              theme === id ? "bg-white/20 text-white" : "text-white/50 hover:text-white/80"
+            }`}
+            aria-label={label}
+          >
+            <Icon className="size-4" />
+          </button>
+        ))}
+      </div>
+
+      {/* Content sits above gradients */}
+      <div className="relative z-10">
+        {/* Your hero content here */}
+      </div>
+    </section>
+  );
+}
+```
+
+### Extending the Technique
+
+**Images that swap per theme:** Stack multiple versions of the same image and crossfade:
+```tsx
+<div className="relative">
+  <img src="/hero-day.jpg" className={`absolute inset-0 transition-opacity duration-[1200ms] ${theme === "day" ? "opacity-100" : "opacity-0"}`} />
+  <img src="/hero-dusk.jpg" className={`absolute inset-0 transition-opacity duration-[1200ms] ${theme === "dusk" ? "opacity-100" : "opacity-0"}`} />
+  <img src="/hero-night.jpg" className={`absolute inset-0 transition-opacity duration-[1200ms] ${theme === "night" ? "opacity-100" : "opacity-0"}`} />
+</div>
+```
+
+**Text color that shifts:** Use CSS variables that transition:
+```css
+.theme-day { --text-hero: rgba(0, 0, 0, 0.9); --text-muted: rgba(0, 0, 0, 0.6); }
+.theme-dusk { --text-hero: rgba(255, 255, 255, 0.95); --text-muted: rgba(255, 255, 255, 0.7); }
+.theme-night { --text-hero: rgba(255, 255, 255, 1); --text-muted: rgba(255, 255, 255, 0.8); }
+```
+
+**Key details:**
+- Transition duration: **1.2s ease-in-out** (slower = more cinematic)
+- All layers are always in the DOM (no mount/unmount)
+- The parent container's class drives which layer is visible via CSS
+- Works with gradients, images, videos, and even text colors
+- Zero JavaScript animation - pure CSS transitions
+
+---
+
 ## Anti-Patterns to Avoid
 
 - **Generic AI look:** Never use default gradients, centered-everything layouts, or standard shadcn cards without customization
