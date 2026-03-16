@@ -1,0 +1,8 @@
+{
+  "api_key": "",
+  "default_count": 10,
+  "default_style": "color",
+  "default_format": "png",
+  "default_size": 128,
+  "output_dir": "assets/icons"
+}
