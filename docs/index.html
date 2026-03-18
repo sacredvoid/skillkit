@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skillkit - AI Coding Skills Collection</title>
-  <meta name="description" content="A curated collection of AI coding skills: image fetching, logo generation, cinematic presentations, video/audio processing, and local image generation. Works with Claude Code, Cursor, Windsurf, Copilot, and more.">
+  <meta name="description" content="A curated collection of 9 AI coding skills: image fetching, logo generation, cinematic presentations, video/audio processing, local image generation, icon libraries, generative art, premium hero sections, and Raycast automation. Works with Claude Code, Cursor, Windsurf, Copilot, and more.">
   <meta property="og:title" content="Skillkit - AI Coding Skills Collection">
-  <meta property="og:description" content="Image fetching, logo generation, cinematic presentations, video/audio processing, and local Stable Diffusion image generation. Works with any AI coding assistant.">
+  <meta property="og:description" content="9 AI coding skills for creative workflows. Images, logos, presentations, transcription, generative art, icons, premium UI, and Raycast automation. Works with any AI coding assistant.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sacredvoid.github.io/skillkit">
   <style>
@@ -28,6 +28,8 @@
       --green: #34d399;
       --blue: #60a5fa;
       --rose: #f43f5e;
+      --indigo: #818cf8;
+      --orange: #fb923c;
       --radius: 20px;
     }
 
@@ -344,6 +346,46 @@
     }
     .card-video:hover { box-shadow: 0 12px 40px rgba(52,211,153,0.08); }
 
+    /* Card: Icons8 */
+    .card-icons8 {
+      grid-column: span 6;
+      grid-row: span 2;
+    }
+    .card-icons8::before {
+      background: radial-gradient(ellipse at 50% 30%, rgba(96,165,250,0.06), transparent 60%);
+    }
+    .card-icons8:hover { box-shadow: 0 12px 40px rgba(96,165,250,0.08); }
+
+    /* Card: Creative Code Lab */
+    .card-creative {
+      grid-column: span 6;
+      grid-row: span 2;
+    }
+    .card-creative::before {
+      background: radial-gradient(ellipse at 40% 50%, rgba(236,72,153,0.06), transparent 60%);
+    }
+    .card-creative:hover { box-shadow: 0 12px 40px rgba(236,72,153,0.08); }
+
+    /* Card: Premium Hero Builder */
+    .card-hero {
+      grid-column: span 7;
+      grid-row: span 2;
+    }
+    .card-hero::before {
+      background: radial-gradient(ellipse at 60% 30%, rgba(129,140,248,0.06), transparent 60%);
+    }
+    .card-hero:hover { box-shadow: 0 12px 40px rgba(129,140,248,0.08); }
+
+    /* Card: Raycast Automator */
+    .card-raycast {
+      grid-column: span 5;
+      grid-row: span 2;
+    }
+    .card-raycast::before {
+      background: radial-gradient(ellipse at 50% 40%, rgba(251,146,60,0.06), transparent 60%);
+    }
+    .card-raycast:hover { box-shadow: 0 12px 40px rgba(251,146,60,0.08); }
+
     /* Card: Local Image Gen */
     .card-imagegen {
       grid-column: span 12;
@@ -368,6 +410,10 @@
     .card-logo .card-icon { background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.15); }
     .card-pres .card-icon { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.15); }
     .card-video .card-icon { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.15); }
+    .card-icons8 .card-icon { background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.15); }
+    .card-creative .card-icon { background: rgba(236,72,153,0.1); border: 1px solid rgba(236,72,153,0.15); }
+    .card-hero .card-icon { background: rgba(129,140,248,0.1); border: 1px solid rgba(129,140,248,0.15); }
+    .card-raycast .card-icon { background: rgba(251,146,60,0.1); border: 1px solid rgba(251,146,60,0.15); }
     .card-imagegen .card-icon { background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.15); }
 
     .card-title {
@@ -380,6 +426,10 @@
     .card-logo .card-title { color: var(--purple); }
     .card-pres .card-title { color: var(--amber); }
     .card-video .card-title { color: var(--green); }
+    .card-icons8 .card-title { color: var(--blue); }
+    .card-creative .card-title { color: var(--pink); }
+    .card-hero .card-title { color: var(--indigo); }
+    .card-raycast .card-title { color: var(--orange); }
     .card-imagegen .card-title { color: var(--rose); }
 
     .card-desc {
@@ -409,6 +459,10 @@
     .card-logo .card-tag { border-color: rgba(168,85,247,0.12); color: rgba(168,85,247,0.8); }
     .card-pres .card-tag { border-color: rgba(245,158,11,0.12); color: rgba(245,158,11,0.8); }
     .card-video .card-tag { border-color: rgba(52,211,153,0.12); color: rgba(52,211,153,0.8); }
+    .card-icons8 .card-tag { border-color: rgba(96,165,250,0.12); color: rgba(96,165,250,0.8); }
+    .card-creative .card-tag { border-color: rgba(236,72,153,0.12); color: rgba(236,72,153,0.8); }
+    .card-hero .card-tag { border-color: rgba(129,140,248,0.12); color: rgba(129,140,248,0.8); }
+    .card-raycast .card-tag { border-color: rgba(251,146,60,0.12); color: rgba(251,146,60,0.8); }
     .card-imagegen .card-tag { border-color: rgba(244,63,94,0.12); color: rgba(244,63,94,0.8); }
 
     /* Card inner demos */
@@ -622,7 +676,7 @@
         grid-template-columns: 1fr;
         grid-auto-rows: auto;
       }
-      .card-image, .card-logo, .card-pres, .card-video, .card-imagegen {
+      .card-image, .card-logo, .card-pres, .card-video, .card-icons8, .card-creative, .card-hero, .card-raycast, .card-imagegen {
         grid-column: span 1;
         grid-row: span 1;
       }
@@ -671,7 +725,7 @@
       <h1 class="reveal reveal-d1">
         <span class="h1-line-1">skillkit</span>
       </h1>
-      <p class="hero-sub reveal reveal-d2">A curated collection of AI coding skills for creative workflows. Images, logos, presentations, transcription, and local AI image generation, all from your editor.</p>
+      <p class="hero-sub reveal reveal-d2">A curated collection of AI coding skills for creative workflows. Images, logos, presentations, transcription, generative art, icons, premium UI, and Raycast automation, all from your editor.</p>
       <div class="hero-cta-row reveal reveal-d3">
         <a href="https://github.com/sacredvoid/skillkit" class="btn btn-primary" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
@@ -696,8 +750,8 @@
     <div class="container">
       <div class="section-header reveal">
         <div class="section-label">The Collection</div>
-        <div class="section-title">Five skills. One install.</div>
-        <div class="section-sub">Each skill is a standalone markdown file with a complete interactive workflow. No APIs, no build steps, no subscriptions.</div>
+        <div class="section-title">Nine skills. One install.</div>
+        <div class="section-sub">Each skill is a standalone markdown file with a complete interactive workflow. No build steps, no subscriptions.</div>
       </div>
 
       <div class="bento">
@@ -803,6 +857,127 @@
 <span class="t-g">[02:14]</span> <span class="t-w">Let me share the demo of the new auth flow.</span>
 <span class="t-g">[08:30]</span> <span class="t-w">The migration is complete, all tests passing.</span>
 <span class="t-g">[12:45]</span> <span class="t-w">Action item: deploy to staging by Friday.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Icons8 -->
+        <div class="bento-card card-icons8 reveal">
+          <div class="card-icon">&#128444;</div>
+          <div class="card-title">Icons8</div>
+          <div class="card-desc">Search 1.5M+ icons across 116 styles, vector illustrations, and 500K+ stock photos from Icons8. Works with API key or free CDN fallback, no key needed for icons.</div>
+          <div class="card-features">
+            <span class="card-tag">1.5M+ Icons</span>
+            <span class="card-tag">Illustrations</span>
+            <span class="card-tag">Photos</span>
+            <span class="card-tag">116 Styles</span>
+            <span class="card-tag">CDN Fallback</span>
+          </div>
+          <div class="card-demo">
+            <div class="term">
+              <div class="term-bar">
+                <div class="term-dot dot-r"></div>
+                <div class="term-dot dot-y"></div>
+                <div class="term-dot dot-g"></div>
+              </div>
+              <div class="term-body"><span class="t-c">/icons8 icon: shopping cart</span>
+
+<span class="t-d">Fetching from Icons8 CDN...</span>
+ <span class="t-g">1.</span> shopping-cart-color.png     <span class="t-d">128x128</span>
+ <span class="t-g">2.</span> shopping-cart-outlined.png  <span class="t-d">128x128</span>
+ <span class="t-g">3.</span> shopping-cart-filled.png    <span class="t-d">128x128</span>
+
+<span class="t-g">Saved 3 icons to assets/icons/</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Creative Code Lab -->
+        <div class="bento-card card-creative reveal reveal-d1">
+          <div class="card-icon">&#10024;</div>
+          <div class="card-title">Creative Code Lab</div>
+          <div class="card-desc">Generate interactive generative art and creative coding sketches. Particle systems, flow fields, fractals, L-systems, shader effects, fluid simulations, and more. Output as HTML, React, p5.js, or raw Canvas/WebGL.</div>
+          <div class="card-features">
+            <span class="card-tag">Generative Art</span>
+            <span class="card-tag">Particles</span>
+            <span class="card-tag">Shaders</span>
+            <span class="card-tag">Flow Fields</span>
+            <span class="card-tag">Interactive</span>
+          </div>
+          <div class="card-demo">
+            <div class="term">
+              <div class="term-bar">
+                <div class="term-dot dot-r"></div>
+                <div class="term-dot dot-y"></div>
+                <div class="term-dot dot-g"></div>
+              </div>
+              <div class="term-body"><span class="t-c">/creative-code-lab particle aurora</span>
+
+<span class="t-d">Technique:</span> <span class="t-w">Particle System + Perlin Noise</span>
+<span class="t-d">Output:</span>   <span class="t-w">Self-contained HTML</span>
+<span class="t-d">Canvas:</span>   <span class="t-w">1920x1080, 60fps</span>
+
+<span class="t-g">Generated aurora-particles.html</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Premium Hero Builder -->
+        <div class="bento-card card-hero reveal reveal-d2">
+          <div class="card-icon">&#127899;</div>
+          <div class="card-title">Premium Hero Builder</div>
+          <div class="card-desc">Agency-quality hero sections and landing pages with cinematic video backgrounds, liquid glass morphism, editorial typography, and pixel-perfect dark UI. Based on the Viktor Oddy methodology for premium web design.</div>
+          <div class="card-features">
+            <span class="card-tag">Cinematic Video BG</span>
+            <span class="card-tag">Glassmorphism</span>
+            <span class="card-tag">Editorial Type</span>
+            <span class="card-tag">Dark Theme</span>
+            <span class="card-tag">Pixel-Perfect</span>
+          </div>
+          <div class="card-demo">
+            <div class="term">
+              <div class="term-bar">
+                <div class="term-dot dot-r"></div>
+                <div class="term-dot dot-y"></div>
+                <div class="term-dot dot-g"></div>
+              </div>
+              <div class="term-body"><span class="t-c">/premium-hero-builder SaaS landing</span>
+
+<span class="t-d">Design system:</span> <span class="t-w">Dark cinematic</span>
+<span class="t-d">Layout:</span>       <span class="t-w">Split hero + floating glass card</span>
+<span class="t-d">Typography:</span>   <span class="t-w">Editorial serif headlines</span>
+
+<span class="t-g">Generated hero with video background</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Raycast Automator -->
+        <div class="bento-card card-raycast reveal reveal-d3">
+          <div class="card-icon">&#9889;</div>
+          <div class="card-title">Raycast Automator</div>
+          <div class="card-desc">Build Raycast extensions and script commands from natural language. Handles the full lifecycle: complexity analysis, code generation, TypeScript/React scaffolding, and dev launch. Automatically picks script vs. extension based on your needs.</div>
+          <div class="card-features">
+            <span class="card-tag">Extensions</span>
+            <span class="card-tag">Script Commands</span>
+            <span class="card-tag">TypeScript</span>
+            <span class="card-tag">React</span>
+            <span class="card-tag">Auto-Scaffold</span>
+          </div>
+          <div class="card-demo">
+            <div class="term">
+              <div class="term-bar">
+                <div class="term-dot dot-r"></div>
+                <div class="term-dot dot-y"></div>
+                <div class="term-dot dot-g"></div>
+              </div>
+              <div class="term-body"><span class="t-c">/raycast-automator fill my timesheet</span>
+
+<span class="t-d">Analysis:</span> <span class="t-w">Needs browser automation</span>
+<span class="t-d">Type:</span>     <span class="t-w">Extension (React + Playwright)</span>
+<span class="t-d">Output:</span>   <span class="t-w">~/Documents/raycast-scripts/</span>
+
+<span class="t-g">Extension scaffolded, running npm run dev</span></div>
             </div>
           </div>
         </div>

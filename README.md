@@ -13,6 +13,10 @@ A curated collection of AI coding skills for creative and productivity workflows
 | [**Presentation Chef**](skills/presentation-chef/) | Apple Keynote-style HTML presentations with cinematic animations, glassmorphism, and 5 themes. Single `.html` file. |
 | [**Video/Audio Processor**](skills/video-audio-processor/) | Transcribe recordings with Whisper, extract visual frames with ffmpeg, synthesize meeting notes. Cross-platform with hardware-aware model selection. |
 | [**Local Image Gen**](skills/local-image-gen/) | Generate images locally with Stable Diffusion. Auto-detects hardware (Apple Silicon, NVIDIA, AMD, CPU) and picks the best model. Cross-platform. |
+| [**Icons8**](skills/icons8/) | Fetch icons, illustrations, and photos from Icons8's 1.5M+ asset library. API key or free CDN fallback. |
+| [**Creative Code Lab**](skills/creative-code-lab/) | Generate interactive generative art: particle systems, flow fields, fractals, shaders, fluid simulations. |
+| [**Premium Hero Builder**](skills/premium-hero-builder/) | Agency-quality hero sections with cinematic video backgrounds, glassmorphism, and editorial typography. |
+| [**Raycast Automator**](skills/raycast-automator/) | Build Raycast extensions and script commands from natural language descriptions. Full lifecycle scaffolding. |
 
 ## Installation
 
@@ -126,6 +130,24 @@ Extracts visual frames with ffmpeg (1 per minute), transcribes audio with Whispe
 Generate images locally using Stable Diffusion. Detects your hardware (Apple Silicon MPS, NVIDIA CUDA, AMD ROCm, CPU) and recommends the best model and resolution. Supports SDXL-Turbo, SD-Turbo, and Tiny-SD.
 
 **Requires**: Python and PyTorch. Install commands provided per platform.
+
+### Icons8
+
+Search 1.5M+ icons across 116 styles, vector illustrations, and 500K+ stock photos from Icons8. Works with an API key for full access or free CDN fallback for icons (no key needed).
+
+**Config** (optional): `skills/icons8/config.json` for API key and defaults.
+
+### Creative Code Lab
+
+Generate interactive generative art and creative coding sketches. Supports particle systems, flow fields, fractals, L-systems, noise-based visuals, text effects, fluid simulations, and interactive 3D scenes. Output as self-contained HTML, React component, Next.js page, p5.js sketch, or raw Canvas/WebGL.
+
+### Premium Hero Builder
+
+Build agency-quality hero sections and landing pages with cinematic video backgrounds, liquid glass morphism, editorial typography, and pixel-perfect dark UI. Based on the Viktor Oddy methodology for premium web design.
+
+### Raycast Automator
+
+Build Raycast extensions and script commands from natural language task descriptions. Handles complexity analysis, code generation, TypeScript/React scaffolding, and dev launch. Automatically picks script command vs. full extension based on the task requirements.
 
 ## License
 
